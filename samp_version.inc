@@ -4,4 +4,4 @@
 
 #define SAMP_VERSION_MAJOR (0)
 #define SAMP_VERSION_MINOR (0)
-#define SAMP_VERSION_PATCH (2)
+#define SAMP_VERSION_PATCH (3)
