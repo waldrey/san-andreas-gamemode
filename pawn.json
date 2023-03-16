@@ -1,12 +1,16 @@
 {
 	"user": "waldrey",
 	"repo": "samp",
+	"tag": "0.0.1",
 	"entry": "gamemodes\\main.pwn",
 	"output": "gamemodes\\main.amx",
 	"dependencies": [
-		"pawn-lang/samp-stdlib",
-		"sampctl/samp-stdlib:0.3.7-R2-2-1",
-		"pawn-lang/YSI-Includes@5.x"
+		"openmultiplayer/omp-stdlib",
+		"pawn-lang/samp-stdlib@open.mp",
+		"pawn-lang/pawn-stdlib@open.mp",
+		"pawn-lang/YSI-Includes@5.x",
+		"Y-Less/sscanf:v2.13.8",
+		"samp-incognito/samp-streamer-plugin:v2.9.6"
 	],
 	"local": true,
 	"runtime": {

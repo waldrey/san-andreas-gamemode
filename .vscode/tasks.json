@@ -19,7 +19,7 @@
         {
             "label": "build watcher",
             "type": "shell",
-            "command": "sampctl package build --watch",
+            "command": "sampctl build --watch",
             "group": "build",
             "isBackground": true,
             "presentation": {

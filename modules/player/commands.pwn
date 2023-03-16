@@ -1,9 +1,18 @@
-#include <YSI\y_hooks>
-
-YCMD:carcmd(playerid, params[], help)
+YCMD:cv(playerid, params[], help)
 {
-	SendClientMessage(playerid, -1, "---------------------------------------- Comandos - Carros ----------------------------------------");
-	SendClientMessage(playerid, -1, "* /car - /reparar - /tunar - /x - /listadecarros - /placa - /ejetar - /farol - /janela - /autoreparo");
-	SendClientMessage(playerid, -1, "---------------------------------------- Comandos - Carros ----------------------------------------");
-	return 1;
+	new vehModel;
+    if (sscanf(params, "d", vehModel)) {
+		return SendClientMessage(playerid, -1, "USE: /cv <model>");
+    }
+
+	if(vehModel < 400 || vehModel > 611) {
+		return SendClientMessage(playerid, -1, "Veículo não existente");
+	}
+
+	new Float:x, Float:y, Float:z, Float:a;
+	GetPlayerPos(playerid, x, y, z);
+	GetPlayerFacingAngle(playerid, a);
+	CreateVehicle(vehModel, x, y, z, a, -1, -1, 60);
+	SendClientMessage(playerid, -1, "Veículo criado!");
+    return 1;
 }

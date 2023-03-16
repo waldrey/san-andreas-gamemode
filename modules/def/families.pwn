@@ -1,0 +1,2 @@
+#define MAX_FAMILY 8
+#define INVALID_FAMILY_ID -1
