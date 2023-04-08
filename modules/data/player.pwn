@@ -4,7 +4,15 @@ enum EPlayerData
     password[128],
     skin,
     money,
-    family
+    wanted,
+    level,
+    health,
+    armour,
+    family,
+    Float:spawn_x,
+    Float:spawn_y,
+    Float:spawn_z,
+    Float:spawn_a
 }
 static PlayerData[MAX_PLAYERS][EPlayerData];
 
@@ -30,7 +38,7 @@ hook OnPlayerRequestClass(playerid, classid)
 	new strPlayer[128];
 	format(strPlayer, sizeof(strPlayer), "\t\tOlá, {586ea4}%s. {dcdad3}Atualmente servidor está em desenvolvimento.", GetPlayerNameEx(playerid));
 
-	SendClientMessage(playerid, 0xff0054FF, "Bem-vindo ao waldisney.mp");
+	SendClientMessage(playerid, 0xdc93f6FF, "Bem-vindo ao waldisney.mp");
 	SendClientMessage(playerid, 0xdcdad3FF, strPlayer);
 	
     new query[100 + MAX_PLAYER_NAME];
@@ -90,18 +98,27 @@ public OnAccountLoad(playerid)
 	{
         cache_get_value_name_int(0, "skin", PlayerData[playerid][skin]);
         cache_get_value_name_int(0, "money", PlayerData[playerid][money]);
-        
-        SetSpawnInfo(playerid, 255, PlayerData[playerid][skin], 2495.3547, -1688.2319, 13.6774, 351.1646, 0, 0, 0, 0, 0, 0);
-        TogglePlayerSpectating(playerid, false);
+        cache_get_value_name_int(0, "wanted", PlayerData[playerid][wanted]);
+        cache_get_value_name_int(0, "level", PlayerData[playerid][level]);
+        cache_get_value_name_int(0, "health", PlayerData[playerid][health]);
+        cache_get_value_name_int(0, "armour", PlayerData[playerid][armour]);
 
-        GivePlayerMoney(playerid, PlayerData[playerid][money]);
+        cache_get_value_name_float(0, "spawn_x", PlayerData[playerid][spawn_x]);
+        cache_get_value_name_float(0, "spawn_y", PlayerData[playerid][spawn_y]);
+        cache_get_value_name_float(0, "spawn_z", PlayerData[playerid][spawn_z]);
+        cache_get_value_name_float(0, "spawn_a", PlayerData[playerid][spawn_a]);
+        
+        SetSpawnInfo(playerid, 255, PlayerData[playerid][skin], PlayerData[playerid][spawn_x], PlayerData[playerid][spawn_y], PlayerData[playerid][spawn_z], PlayerData[playerid][spawn_a], 0, 0, 0, 0, 0, 0);
+        TogglePlayerSpectating(playerid, false);
+        
         SetPlayerInterior(playerid,     0);
         SetPlayerVirtualWorld(playerid, 0);
 
-        //SetPlayerLevel(playerid,        cache_get_field_content_int(0, "level", mysql));
-        // SetPlayerHealth(playerid,       gPlayerCharacterData[playerid][e_player_health]);
-        // SetPlayerArmour(playerid,       gPlayerCharacterData[playerid][e_player_armour]);
-        // SetPlayerCash(playerid,         gPlayerCharacterData[playerid][e_player_money]);
+        SetPlayerScore(playerid,        PlayerData[playerid][level]);
+        SetPlayerHealth(playerid,       PlayerData[playerid][health]);
+        SetPlayerArmour(playerid,       PlayerData[playerid][armour]);
+        SetPlayerWantedLevel(playerid,  PlayerData[playerid][wanted]);
+        GivePlayerMoney(playerid,       PlayerData[playerid][money]);
 
         // SetPlayerSkillLevel(playerid, WEAPONSKILL_PISTOL,			gPlayerWeaponData[playerid][e_player_weapon_skill][0]);
     	// SetPlayerSkillLevel(playerid, WEAPONSKILL_PISTOL_SILENCED,	gPlayerWeaponData[playerid][e_player_weapon_skill][1]);
