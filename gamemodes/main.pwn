@@ -35,14 +35,15 @@ main()
 	printf(" ");
 }
 
-// Modulos
+// Modules
+/* Defs */
+#include "../modules/def/dialogs.pwn"
+#include "../modules/def/job.pwn"
+//#include "../modules/def/families.pwn"
+
 /* Data */
 #include "../modules/data/database.pwn"
 #include "../modules/data/player.pwn"
-
-/* Defs */
-#include "../modules/def/dialogs.pwn"
-//#include "../modules/def/families.pwn"
 
 /* Jogador */
 #include "../modules/player/player.pwn"
@@ -59,11 +60,9 @@ main()
 
 public OnGameModeInit()
 {
-	//LoadFamilies();
 	UsePlayerPedAnims();
 	DisableInteriorEnterExits();
 	EnableStuntBonusForAll(false);
-	AddPlayerClass(0, 2495.3547, -1688.2319, 13.6774, 351.1646, WEAPON_M4, 500, WEAPON_KNIFE, 1);
 	AddStaticVehicle(495, 2493.7583, -1683.6482, 12.9099, 270.8069, -1, -1);
 	AddStaticVehicle(538, 1765.4504, -1953.7933, 14.8756, 269.9386, 1, 1);
 	return 1;
@@ -84,6 +83,18 @@ public OnPlayerSpawn(playerid)
 	SetPlayerColor(playerid, 0xFFFFFFFF);
 	SetPlayerInterior(playerid, 0);
 	return 1;
+}
+
+public e_COMMAND_ERRORS:OnPlayerCommandPerformed(playerid, cmdtext[], e_COMMAND_ERRORS:success)
+{
+    if(success != COMMAND_OK)
+    {
+        new string[128]; 
+        format(string, sizeof(string), "{030CDE}[SM] {FF0000}Command %s doesn't exist !", cmdtext);
+        SendClientMessage(playerid,-1, string); 
+        return COMMAND_OK;
+    }
+    return COMMAND_OK;
 }
 
 stock GetPlayerNameEx(playerid)

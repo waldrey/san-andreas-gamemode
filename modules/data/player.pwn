@@ -8,6 +8,7 @@ enum EPlayerData
     level,
     health,
     armour,
+    Job:job,
     family,
     Float:spawn_x,
     Float:spawn_y,
@@ -21,7 +22,6 @@ forward OnAccountLoad(playerid);
 
 stock LoadPlayerAccount(playerid)
 {
-    SendClientMessage(playerid, -1, "[DEBUG] LoadPlayerAccount");
     new query[57 + MAX_PLAYER_NAME + 1], playerName[MAX_PLAYER_NAME + 1];
     GetPlayerName(playerid, playerName, sizeof(playerName));
     mysql_format(mysql, query, sizeof(query),"SELECT * FROM `users` WHERE `username` = '%s' LIMIT 1", GetPlayerNameEx(playerid));
@@ -98,6 +98,7 @@ public OnAccountLoad(playerid)
 	{
         cache_get_value_name_int(0, "skin", PlayerData[playerid][skin]);
         cache_get_value_name_int(0, "money", PlayerData[playerid][money]);
+        cache_get_value_name_int(0, "job", PlayerData[playerid][job]);
         cache_get_value_name_int(0, "wanted", PlayerData[playerid][wanted]);
         cache_get_value_name_int(0, "level", PlayerData[playerid][level]);
         cache_get_value_name_int(0, "health", PlayerData[playerid][health]);
