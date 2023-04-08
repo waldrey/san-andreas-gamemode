@@ -1,7 +1,6 @@
 {
 	"user": "waldrey",
 	"repo": "samp",
-	"tag": "0.0.1",
 	"entry": "gamemodes\\main.pwn",
 	"output": "gamemodes\\main.amx",
 	"dependencies": [
@@ -10,7 +9,9 @@
 		"pawn-lang/pawn-stdlib@open.mp",
 		"pawn-lang/YSI-Includes@5.x",
 		"Y-Less/sscanf:v2.13.8",
-		"samp-incognito/samp-streamer-plugin:v2.9.6"
+		"samp-incognito/samp-streamer-plugin:v2.9.6",
+		"pBlueG/SA-MP-MySQL:R41-4",
+		"oscar-broman/strlib"
 	],
 	"local": true,
 	"runtime": {
