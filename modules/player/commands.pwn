@@ -16,3 +16,16 @@ YCMD:cv(playerid, params[], help)
 	SendClientMessage(playerid, -1, "Veículo criado!");
     return 1;
 }
+
+/** AUTH **/
+YCMD:entrar(playerid, params[], help)
+{
+	ShowPlayerDialog(playerid, DIALOG_USER_LOGIN, DIALOG_STYLE_PASSWORD, "waldisney.mp | Autenticação", "Olá, agora você pode só colocar sua senha ai para acessar o servidor.", "Autenticar", "Sair");
+    return 1;
+}
+
+YCMD:registrar(playerid, params[], help)
+{
+	ShowPlayerDialog(playerid, DIALOG_USER_REGISTER, DIALOG_STYLE_INPUT, "waldisney.mp | Crie sua senha", "Olá, agora coloca uma senha para gente te resgistrar, mula.", "Criar conta", "Sair");
+    return 1;
+}
