@@ -4,6 +4,7 @@ enum EPlayerData
     password[128],
     skin,
     money,
+    coins,
     wanted,
     level,
     health,
@@ -103,6 +104,7 @@ public OnAccountLoad(playerid)
 	{
         cache_get_value_name_int(0, "skin", PlayerData[playerid][skin]);
         cache_get_value_name_int(0, "money", PlayerData[playerid][money]);
+        cache_get_value_name_int(0, "coins", PlayerData[playerid][coins]);
         cache_get_value_name_int(0, "job", PlayerData[playerid][job]);
         cache_get_value_name_int(0, "wanted", PlayerData[playerid][wanted]);
         cache_get_value_name_int(0, "level", PlayerData[playerid][level]);
