@@ -29,3 +29,13 @@ YCMD:registrar(playerid, params[], help)
 	ShowPlayerDialog(playerid, DIALOG_USER_REGISTER, DIALOG_STYLE_INPUT, "waldisney.mp | Crie sua senha", "Olá, agora coloca uma senha para gente te resgistrar, mula.", "Criar conta", "Sair");
     return 1;
 }
+
+YCMD:status(playerid, params[], help)
+{
+	new strMessage[1024];
+	format(strMessage, sizeof(strMessage), "\t{a7c957}%s\n\n{ffffff}Profissão: %s | Nível: 0 | Respeito: 0", GetPlayerNameEx(playerid), GetJobName(GetPlayerJob(playerid), true));
+	
+
+	ShowPlayerDialog(playerid, DIALOG_USER_STATUS, DIALOG_STYLE_MSGBOX, "Status:", strMessage, "Fechar", "");
+    return 1;
+}

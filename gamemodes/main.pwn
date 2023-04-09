@@ -73,15 +73,15 @@ public OnGameModeExit()
 	return 1;
 }
 
-public OnPlayerRequestClass(playerid, classid)
+public OnPlayerConnect(playerid)
 {
+	SendDeathMessage(playerid, INVALID_PLAYER_ID, 200);
 	return 1;
 }
 
-public OnPlayerSpawn(playerid)
+public OnPlayerDisconnect(playerid)
 {
-	SetPlayerColor(playerid, 0xFFFFFFFF);
-	SetPlayerInterior(playerid, 0);
+	SendDeathMessage(playerid, INVALID_PLAYER_ID, 201);
 	return 1;
 }
 

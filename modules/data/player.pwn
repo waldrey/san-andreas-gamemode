@@ -54,6 +54,11 @@ GetPlayerFamily(playerid)
     return PlayerData[playerid][family];
 }
 
+GetPlayerJob(playerid)
+{
+    return PlayerData[playerid][job];
+}
+
 SetPlayerFamily(playerid, familyid) {
     return PlayerData[playerid][family] = familyid;
 }
