@@ -68,6 +68,11 @@ hook OnPlayerRequestClass(playerid, classid)
 }
 
 /* Gets */
+GetSkillWeaponPlayer(playerid, weaponid)
+{
+    return PlayerWeaponData[playerid][e_skill][weaponid];
+}
+
 GetPlayerFamily(playerid)
 {
     return PlayerData[playerid][family];
