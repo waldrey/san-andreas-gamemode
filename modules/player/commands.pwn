@@ -39,3 +39,9 @@ YCMD:status(playerid, params[], help)
 	ShowPlayerDialog(playerid, DIALOG_USER_STATUS, DIALOG_STYLE_MSGBOX, "Status:", strMessage, "Fechar", "");
     return 1;
 }
+
+YCMD:salvar(playerid, params[], help)
+{
+	SavePlayerAccount(playerid);
+    return 1;
+}

@@ -105,7 +105,7 @@ public OnAccountLoad(playerid)
         cache_get_value_name_int(0, "skin", PlayerData[playerid][skin]);
         cache_get_value_name_int(0, "money", PlayerData[playerid][money]);
         cache_get_value_name_int(0, "coins", PlayerData[playerid][coins]);
-        cache_get_value_name_int(0, "job", PlayerData[playerid][job]);
+        cache_get_value_name_int(0, "job_id", PlayerData[playerid][job]);
         cache_get_value_name_int(0, "wanted", PlayerData[playerid][wanted]);
         cache_get_value_name_int(0, "level", PlayerData[playerid][level]);
         cache_get_value_name_int(0, "health", PlayerData[playerid][health]);
@@ -150,5 +150,41 @@ public OnAccountLoad(playerid)
 
         // SendAdminMessage(PLAYER_RANK_PARADISER, 0x3A9BF4FF, "%s{FFFFFF} conectou-se ao servidor.", GetPlayerFirstName(playerid));
     }
+    return 1;
+}
+
+SavePlayerAccount(playerid)
+{
+    // if(!IsPlayerLogged(playerid))
+    //     return 0;
+
+    new Float:x, Float:y, Float:z, Float:a;
+    new Float:PlayerHealth, Float:PlayerArmour;
+    GetPlayerPos(playerid, x, y, z);
+    GetPlayerFacingAngle(playerid, a);
+    GetPlayerHealth(playerid, PlayerHealth);
+    GetPlayerArmour(playerid, PlayerArmour);
+
+    // Account saving
+    new query[1310];
+	mysql_format(mysql, query, sizeof(query),
+	"UPDATE `users` SET `pos_x`=%.2f, `pos_y`=%.2f, `pos_z`=%.2f, `pos_a`=%.2f, \
+    `skin`=%d, `money`=%d, `health`=%d, `armour`=%d, \
+    `job_id`=%d, `level`=%d WHERE `username`='%s'", 
+        x,
+        y,
+        z,
+        a,
+        PlayerData[playerid][skin], 
+        GetPlayerMoney(playerid), 
+        100, 
+        PlayerArmour, 
+        PlayerData[playerid][job], 
+        PlayerData[playerid][level], 
+        GetPlayerNameEx(playerid)
+    );
+	mysql_pquery(mysql, query);
+    
+    SendClientMessage(playerid, 0xdc93f6FF, "[waldisney.mp] Seu progresso foi salvo com sucesso.");
     return 1;
 }
