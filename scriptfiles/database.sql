@@ -32,3 +32,12 @@ CREATE TABLE jobs (
 INSERT INTO jobs (name, level, salary) VALUES ('Desempregado', 0, 800);
 INSERT INTO jobs (name, level, salary) VALUES ('Taxista', 0, 1100);
 INSERT INTO jobs (name, level, salary) VALUES ('Pizzaboy', 0, 1100);
+
+CREATE TABLE player_weapons (
+    player_id int NOT NULL,
+    weapon_id int NOT NULL,
+    skill_weapon_id int NOT NULL,
+    skill int NOT NULL DEFAULT 0,
+    ammo int NOT NULL DEFAULT 0,
+    FOREIGN KEY (player_id) REFERENCES users(id)
+);

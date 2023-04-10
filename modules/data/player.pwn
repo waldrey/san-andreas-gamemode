@@ -1,6 +1,6 @@
 enum EPlayerData
 {
-    id_database,
+    e_id_database,
     password[128],
     skin,
     money,
@@ -18,8 +18,18 @@ enum EPlayerData
 }
 static PlayerData[MAX_PLAYERS][EPlayerData];
 
+enum EPlayerWeaponData
+{
+    e_weapon[13],
+    e_ammo[13],
+    e_weaponid_skill[11],
+    e_skill[11]
+}
+static PlayerWeaponData[MAX_PLAYERS][EPlayerWeaponData];
+
 forward OnAccountCheck(playerid);
 forward OnAccountLoad(playerid);
+forward OnWeaponsLoad(playerid);
 
 stock LoadPlayerAccount(playerid)
 {
@@ -27,6 +37,14 @@ stock LoadPlayerAccount(playerid)
     GetPlayerName(playerid, playerName, sizeof(playerName));
     mysql_format(mysql, query, sizeof(query),"SELECT * FROM `users` WHERE `username` = '%s' LIMIT 1", GetPlayerNameEx(playerid));
     mysql_tquery(mysql, query, "OnAccountLoad", "i", playerid);
+}
+
+stock LoadPlayerWeapons(playerid)
+{
+    SendClientMessage(playerid, -1, "DEBUG: LoadPlayerWeapons");
+    new query[68];
+    mysql_format(mysql, query, sizeof(query), "SELECT * FROM player_weapons WHERE player_id = %d;", PlayerData[playerid][e_id_database]);
+    mysql_tquery(mysql, query, "OnWeaponsLoad", "i", playerid);
 }
 
 hook OnPlayerRequestClass(playerid, classid)
@@ -102,6 +120,7 @@ public OnAccountLoad(playerid)
     cache_get_field_count(fields);
 	if(rows > 0)
 	{
+        cache_get_value_name_int(0, "id", PlayerData[playerid][e_id_database]);
         cache_get_value_name_int(0, "skin", PlayerData[playerid][skin]);
         cache_get_value_name_int(0, "money", PlayerData[playerid][money]);
         cache_get_value_name_int(0, "coins", PlayerData[playerid][coins]);
@@ -128,28 +147,43 @@ public OnAccountLoad(playerid)
         SetPlayerWantedLevel(playerid,  PlayerData[playerid][wanted]);
         GivePlayerMoney(playerid,       PlayerData[playerid][money]);
 
-        // SetPlayerSkillLevel(playerid, WEAPONSKILL_PISTOL,			gPlayerWeaponData[playerid][e_player_weapon_skill][0]);
-    	// SetPlayerSkillLevel(playerid, WEAPONSKILL_PISTOL_SILENCED,	gPlayerWeaponData[playerid][e_player_weapon_skill][1]);
-    	// SetPlayerSkillLevel(playerid, WEAPONSKILL_DESERT_EAGLE,		gPlayerWeaponData[playerid][e_player_weapon_skill][2]);
-    	// SetPlayerSkillLevel(playerid, WEAPONSKILL_SHOTGUN,			gPlayerWeaponData[playerid][e_player_weapon_skill][3]);
-    	// SetPlayerSkillLevel(playerid, WEAPONSKILL_SAWNOFF_SHOTGUN,	gPlayerWeaponData[playerid][e_player_weapon_skill][4]);
-    	// SetPlayerSkillLevel(playerid, WEAPONSKILL_SPAS12_SHOTGUN,	gPlayerWeaponData[playerid][e_player_weapon_skill][5]);
-    	// SetPlayerSkillLevel(playerid, WEAPONSKILL_MICRO_UZI,		gPlayerWeaponData[playerid][e_player_weapon_skill][6]);
-    	// SetPlayerSkillLevel(playerid, WEAPONSKILL_MP5,				gPlayerWeaponData[playerid][e_player_weapon_skill][7]);
-    	// SetPlayerSkillLevel(playerid, WEAPONSKILL_AK47,				gPlayerWeaponData[playerid][e_player_weapon_skill][8]);
-    	// SetPlayerSkillLevel(playerid, WEAPONSKILL_M4,				gPlayerWeaponData[playerid][e_player_weapon_skill][9]);
-    	// SetPlayerSkillLevel(playerid, WEAPONSKILL_SNIPERRIFLE,		gPlayerWeaponData[playerid][e_player_weapon_skill][10]);
-
         // SetPlayerFightingStyle(playerid, gPlayerCharacterData[playerid][e_player_fstyle]);
 
-        // LoadPlayerWeapons(playerid);
+        LoadPlayerWeapons(playerid);
         // LoadPlayerVehicles(playerid);
 
         SetPlayerColor(playerid, 0xFFFFFFFF);
         //SetPlayerLogged(playerid, true);
-
-        // SendAdminMessage(PLAYER_RANK_PARADISER, 0x3A9BF4FF, "%s{FFFFFF} conectou-se ao servidor.", GetPlayerFirstName(playerid));
     }
+    return 1;
+}
+
+public OnWeaponsLoad(playerid) 
+{
+    new rows;
+    cache_get_row_count(rows);
+	for(new i; i < rows; i++)
+	{
+	    cache_get_value_name_int(i, "weapon_id", PlayerWeaponData[playerid][e_weapon][i]);
+        cache_get_value_name_int(i, "skill_weapon_id", PlayerWeaponData[playerid][e_weaponid_skill][i]);
+	    cache_get_value_name_int(i, "ammo", PlayerWeaponData[playerid][e_ammo][i]);
+        cache_get_value_name_int(i, "skill", PlayerWeaponData[playerid][e_skill][i]);
+
+        SetPlayerSkillLevel(playerid, PlayerWeaponData[playerid][e_weaponid_skill][i], PlayerWeaponData[playerid][e_skill][i]);
+
+		if(!(0 <= PlayerWeaponData[playerid][e_weapon][i] <= 46))
+		{
+			printf("[info] Warning: OnWeaponsLoad - Unknown weaponid '%d'. Skipping.", PlayerWeaponData[playerid][e_weapon][i]);
+			continue;
+		}
+
+        if(PlayerWeaponData[playerid][e_ammo][i] < 1) {
+            continue;
+        }
+
+		GivePlayerWeapon(playerid, PlayerWeaponData[playerid][e_weapon][i], PlayerWeaponData[playerid][e_ammo][i]);
+	}
+
     return 1;
 }
 
